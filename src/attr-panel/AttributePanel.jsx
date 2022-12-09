@@ -10,6 +10,7 @@ import { UserService } from '../components/grid/UserService'
 import AttrGrid from './attr-grid/AttrGridComp';
 import AttrInput from './attr-input/AttrInput';
 import AttrRadio from './attr-radio/AttrRadio';
+import AttrListBox from './attr-ListBox/AttrListBox';
 import { Sidebar } from 'primereact/sidebar';
 import ControlStyles from '../control-styles/ControlStyles';
 
@@ -164,6 +165,15 @@ const AttributePanel = (props) => {
                 return (
                     <>
                         <AttrGrid meta={meta} handleAttributeChange={handleAttributeChange} updateClass={updateClass}></AttrGrid>
+                    </>
+                )
+
+            }
+            /* Render ListBox attributes */
+            if (meta.currentElement.type === CONTROL.LISTBOX) {
+                return (
+                    <>
+                        <AttrListBox meta={meta} handleAttributeChange={handleAttributeChange} updateClass={updateClass} eventOptions={availableEvents}></AttrListBox>
                     </>
                 )
 

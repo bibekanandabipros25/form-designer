@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
 import { ListBox } from 'primereact/listbox';
-const HDListBox = React.forwardRef((props, ref) => {
+import EventExecutor from '../service/EventExecutor';
 
+const HDListBox = React.forwardRef((props, ref) => {
+    const { element } = props;
+    
     const [selectedCity, setSelectedCity] = useState(null);
 
+    const executeOnChangeEvent = () => {
+        if (element.attributes && element.attributes.onchangeevent) {
+            EventExecutor.executeEvent(props.meta, element.attributes.onchangeevent, null, null);
+        }
+    }
+    const executeOnFilterChangeEvent = () => {
+        if (element.attributes && element.attributes.onfiltervaluechange) {
+            EventExecutor.executeEvent(props.meta, element.attributes.onfiltervaluechange, null, null);
+        }
+    }
+    
     const cities = [
         { name: 'New York', code: 'NY' },
         { name: 'Rome', code: 'RM' },
@@ -58,9 +72,19 @@ const HDListBox = React.forwardRef((props, ref) => {
     const items = Array.from({ length: 100000 }).map((_, i) => ({ label: `Item #${i}`, value: i }));
 
     return (
-        <ListBox value={selectedCity} options={cities} onChange={(e) => setSelectedCity(e.value)} optionLabel="name"/>
+        <>
+         x <h1>{element.attributes.disabled}</h1>
+            <ListBox
+            value={selectedCity}
+            disabled= {element.attributes.disabled}
+            options={cities}
+            onChange={(e) => {setSelectedCity(e.value); executeOnChangeEvent()}}
+            optionLabel="name"
+            onChangeEvent={(e) => executeOnChangeEvent()}
+            onFilterChange={(e) => executeOnFilterChangeEvent()} />
+        </>
+        
     );
 })
 
 export default HDListBox;
- 
